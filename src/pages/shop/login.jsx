@@ -13,13 +13,22 @@ export default () => {
     //     const result = await loginPost(input.user_name, input.pass_word);
 	
     // }
+    const handleSubmit = async () => {
+        const result = await loginPost(input.user_name, input.pass_word);
+       
+    }
+    const handlePress = async (e) => {
+        if (e.keyCode == 13) {
+            handleSubmit()
+        }
+    }
  
     
   return (
     <>
       <div>
         <div className="overlay">
-        <form onSubmit={onSubmitHandler} action="">
+        <form onKeyDown={handlePress}  action="">
             <div className="con">
               <header className="head-form">
                 <h2>Log In</h2>
@@ -37,7 +46,7 @@ export default () => {
                   placeholder="UserName"
                   name="user_name"
                   required="required"
-                  onChange={e => setName(e.target.value)}
+                  onChange={(e) => setInput({ ...input, user_name: e.target.value })}
                 />
                 <br />
                 <span className="input-item">
@@ -50,7 +59,7 @@ export default () => {
                   id="pass_word"
                   name="pass_word"
                   required="required"
-                  onChange={e => setName(e.target.value)}
+                  onChange={(e) => setInput({ ...input, pass_word: e.target.value })}
                 />
                 <span>
                   <i
@@ -61,7 +70,7 @@ export default () => {
                   ></i>
                 </span>
                 <br />
-                <button className="log-in" type="submit"> Log In </button>
+                <button className="log-in" onClick={handleSubmit}> Log In </button>
               </div>
               
             </div>
