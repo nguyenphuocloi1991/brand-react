@@ -16,7 +16,7 @@ if(token && token !== "" && token !== null && token !== undefined && token !== "
 
 const api = axios.create({
     // baseURL: 'https://shopping.amante.co.kr:3010/v1.0'
-    baseURL: 'http://localhost:3010/v1.0', // path to your API, which will be resolved by the proxy
+    baseURL: 'http://localhost:3011/v1.0', // path to your API, which will be resolved by the proxy
     // baseURL: 'http://192.168.80.6:3010/v1.0', // path to your API, which will be resolved by the proxy
 });
 
