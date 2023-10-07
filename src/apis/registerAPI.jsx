@@ -1,13 +1,13 @@
 import api from "../utils/api/api"
 
-export const loginPost = async (data) => {
+export const registerPost = async (user_name, password, full_name, number_phone, email) => {
     debugger
     try {
         const response = await api({
-            url: "/auth/login",
+            url: "/user/register",
             method: "POST",
             data: {
-                ...data
+                user_name, password, full_name, number_phone, email
             },
         }, {
             withCredentials: true

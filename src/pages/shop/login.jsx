@@ -5,30 +5,34 @@ import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 
 export default () => {
-    // const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     responseBody.firstName = firstName
-    //     responseBody.lastName = lastName
-    //     responseBody.age = age
-    //     const result = await loginPost(input.user_name, input.pass_word);
-	
-    // }
-    const handleSubmit = async () => {
-        const result = await loginPost(input.user_name, input.pass_word);
-       
+  const [userInput, setUserInput] = useState({user_name: "", pass_word: ""})
+  const cookies = new Cookies();
+    const handleSubmit = async (e) => {
+      e.preventDefault()
+      debugger
+        const result = await loginPost(userInput);
+        if(result.status === "ok") {
+          cookies.set("manager_acs_tk", result.access_token, { path: "/", sameSite: "strict", maxAge: 84600 })
+          window.localStorage.setItem("admin_info", JSON.stringify(result.data))
+          navigate("/manager/list")
+      }
     }
-    const handlePress = async (e) => {
-        if (e.keyCode == 13) {
-            handleSubmit()
-        }
-    }
+  
  
-    
+    const handleSetUserInput = (input, e) => {
+      if (input === "user_name") {
+          setUserInput({...userInput, user_name: e.target.value})
+      }
+
+      if (input === "pass_word") {
+          setUserInput({...userInput, pass_word: e.target.value})
+      }
+  }
   return (
     <>
       <div>
         <div className="overlay">
-        <form onKeyDown={handlePress}  action="">
+        <form method="post" className="d-flex flex-column gap-4" onSubmit={handleSubmit}>
             <div className="con">
               <header className="head-form">
                 <h2>Log In</h2>
@@ -46,7 +50,7 @@ export default () => {
                   placeholder="UserName"
                   name="user_name"
                   required="required"
-                  onChange={(e) => setInput({ ...input, user_name: e.target.value })}
+                  onChange={(e) => handleSetUserInput("user_name", e)}
                 />
                 <br />
                 <span className="input-item">
@@ -59,7 +63,7 @@ export default () => {
                   id="pass_word"
                   name="pass_word"
                   required="required"
-                  onChange={(e) => setInput({ ...input, pass_word: e.target.value })}
+                  onChange={(e) => handleSetUserInput("pass_word", e)}
                 />
                 <span>
                   <i
@@ -70,7 +74,7 @@ export default () => {
                   ></i>
                 </span>
                 <br />
-                <button className="log-in" onClick={handleSubmit}> Log In </button>
+                <button className="log-in" > Log In </button>
               </div>
               
             </div>
