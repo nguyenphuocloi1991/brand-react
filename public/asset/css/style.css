@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Abel|Abril+Fatface|Alegreya|Arima+Madurai|Dancing+Script|Dosis|Merriweather|Oleo+Script|Overlock|PT+Serif|Pacifico|Playball|Playfair+Display|Share|Unica+One|Vibur");
+@import url("https://fonts.googleapis.com/css?family=Muli");
 * {
     padding: 0;
     margin: 0;
@@ -130,7 +131,7 @@ button:hover {
 
 
 /* Home */
-@import url("https://fonts.googleapis.com/css?family=Muli");
+
 * {
   margin: 0;
   padding: 0;
