@@ -1,38 +1,45 @@
-import { useState, useEffect } from "react"
-import { loginPost } from "@apis/loginApi"
-import Cookies from "universal-cookie"
-import { useNavigate } from "react-router"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { loginPost } from "@apis/loginApi";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default () => {
-  const [userInput, setUserInput] = useState({user_name: "", pass_word: ""})
-  const cookies = new Cookies();
-    const handleSubmit = async (e) => {
-      e.preventDefault()
-      debugger
-        const result = await loginPost(userInput);
-        if(result.status === "ok") {
-          cookies.set("manager_acs_tk", result.access_token, { path: "/", sameSite: "strict", maxAge: 84600 })
-          window.localStorage.setItem("admin_info", JSON.stringify(result.data))
-          navigate("/manager/list")
-      }
-    }
-  
+  let navigate = useNavigate();
  
-    const handleSetUserInput = (input, e) => {
-      if (input === "user_name") {
-          setUserInput({...userInput, user_name: e.target.value})
-      }
+  const [userInput, setUserInput] = useState({ user_name: "", pass_word: "" })
+  const cookies = new Cookies();
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-      if (input === "pass_word") {
-          setUserInput({...userInput, pass_word: e.target.value})
-      }
+    const result = await loginPost(userInput);
+    debugger
+    if (result.message === "SUCCESS") {
+
+      cookies.set("manager_acs_tk", result.access_token, { path: "/", sameSite: "strict", maxAge: 84600 });
+      window.localStorage.setItem("admin_info", JSON.stringify(result.data));
+      
+
+      return (navigate("/manager/list"));
+     
+
+    }
+  }
+
+
+  const handleSetUserInput = (input, e) => {
+    if (input === "user_name") {
+      setUserInput({ ...userInput, user_name: e.target.value })
+    }
+
+    if (input === "pass_word") {
+      setUserInput({ ...userInput, pass_word: e.target.value })
+    }
   }
   return (
     <>
       <div>
         <div className="overlay">
-        <form method="post" className="d-flex flex-column gap-4" onSubmit={handleSubmit}>
+          <form method="post" className="d-flex flex-column gap-4" onSubmit={handleSubmit}>
             <div className="con">
               <header className="head-form">
                 <h2>Log In</h2>
@@ -76,7 +83,7 @@ export default () => {
                 <br />
                 <button className="log-in" > Log In </button>
               </div>
-              
+
             </div>
           </form>
         </div>
